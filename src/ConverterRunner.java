@@ -11,10 +11,10 @@ class ConverterRunner {
         // loop to check if the user entered a valid base
         boolean chosen = false;
         while (!chosen) {
-            System.out.print("Enter the base of your number (2, 8 or 10): ");
+            System.out.print("Enter the base of your number (2, 8, 10 or 16): ");
             String choice = s.nextLine();
             int choice2 = Integer.parseInt(choice);
-            if (choice2 == 2 || choice2 == 8 || choice2 == 10) {
+            if (choice2 == 2 || choice2 == 8 || choice2 == 10 || choice2 == 16) {
                 base += choice2;
                 System.out.println();
                 chosen = true;
@@ -26,10 +26,10 @@ class ConverterRunner {
 
         System.out.print("Enter your number: ");
         String number = s.nextLine();
-        int n = Integer.parseInt(number);
         s.close();
 
-        NumberConverter nc = new NumberConverter(n, base);
+        NumberConverter nc = new NumberConverter(number, base);
+
         int[] digits = nc.getDigits();
 
 
@@ -48,10 +48,16 @@ class ConverterRunner {
                     validDigits = false;
                 }
             }
-            else {
-                if (!Character.isDigit(digits[i])) {
+            else if (base == 10) {
+                if (!(digits[i] >= 0 && digits[i] <= 9)) {
                     System.out.println("That's not a valid base 10 number!");
                     validDigits = false;
+                }
+            }
+            else {
+                char c = number.charAt(i);
+                if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F'))) {
+                    System.out.println("That's not a valid hex number!");
                 }
             }
         }
@@ -64,6 +70,10 @@ class ConverterRunner {
 
                 // conversion to decimal
                 NumberConverter.decimalConversion(nc);
+                System.out.println();
+
+                // conversion to hex
+                NumberConverter.hexConversion(nc);
             }
             else if (base == 8) {
                 // conversion to binary
@@ -72,6 +82,22 @@ class ConverterRunner {
 
                 // conversion to decimal
                 NumberConverter.decimalConversion(nc);
+                System.out.println();
+
+                // conversion to hex
+                NumberConverter.hexConversion(nc);
+            }
+            else if (base == 10) {
+                // conversion to binary
+                NumberConverter.binaryConversion(nc);
+                System.out.println();
+
+                // conversion to octal
+                NumberConverter.octalConversion(nc);
+                System.out.println();
+
+                // conversion to hex
+                NumberConverter.hexConversion(nc);
             }
             else {
                 // conversion to binary
@@ -80,9 +106,14 @@ class ConverterRunner {
 
                 // conversion to octal
                 NumberConverter.octalConversion(nc);
-                }
+                System.out.println();
+
+                // conversion to decimal
+                NumberConverter.decimalConversion(nc);
+                System.out.println();
             }
         }
+    }
 
     }
 

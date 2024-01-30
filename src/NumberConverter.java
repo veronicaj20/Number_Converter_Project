@@ -2,15 +2,17 @@ public class NumberConverter {
     int[] digits;
     int base;
 
-    public NumberConverter(int number, int base) {
-        String numberAsString = Integer.toString(number);
-        digits = new int[numberAsString.length()];
-        for (int i = 0; i < numberAsString.length(); i++) {
-            String single = numberAsString.substring(i,i+1);
-            int d = Integer.parseInt(single);
-            digits[i] = d;
-        }
+    public NumberConverter(String number, int base) {
         this.base = base;
+        digits = new int[number.length()];
+        for (int i = 0; i < number.length(); i++) {
+            char c = number.charAt(i);
+            if (base == 16 && Character.isLetter(c)) {
+                digits[i] = Character.digit(c, 16);
+            } else {
+                digits[i] = Character.getNumericValue(c);
+            }
+        }
     }
 
     public String displayOriginalNumber() {
@@ -32,7 +34,7 @@ public class NumberConverter {
             decimal += digits[i] * Math.pow(base, digits.length - 1 - i);
         }
         String str = Integer.toString(decimal);
-        int [] decArr = new int[str.length()];
+        int[] decArr = new int[str.length()];
         for (int i = 0; i < str.length(); i++) {
             decArr[i] = Character.getNumericValue(str.charAt(i));
         }
@@ -86,6 +88,29 @@ public class NumberConverter {
         return octArr;
     }
 
+    public int [] convertToHexadecimal() {
+        int[] decimalDigits = convertToDecimal();
+
+        int decimal = 0;
+        for (int digit : decimalDigits) {
+            decimal = decimal * 10 + digit;
+        }
+
+        int[] hexTemp = new int[100];
+        int index = 0;
+
+        while (decimal > 0) {
+            hexTemp[index++] = decimal % 16;;
+            decimal /= 16;
+        }
+
+        int[] hexArray = new int[index];
+        for (int i = 0; i < index; i++) {
+            hexArray[i] = hexTemp[index - 1 - i];
+        }
+        return hexArray;
+    }
+
     public static void octalConversion(NumberConverter x) {
         int [] octalArray = x.convertToOctal();
         System.out.print("Octal number: ");
@@ -107,6 +132,20 @@ public class NumberConverter {
         System.out.print("Binary number: ");
         for (int digit : binaryDigits) {
             System.out.print(digit);
+        }
+    }
+
+    public static void hexConversion(NumberConverter x) {
+        int [] hexDigits = x.convertToHexadecimal();
+        System.out.print("Hex number: ");
+        for (int digit : hexDigits) {
+            if (digit < 10) {
+                System.out.print(digit);
+            }
+            else {
+                String hexLetters = "ABCDEF";
+                System.out.print(hexLetters.charAt(digit - 10));
+            }
         }
     }
 }
