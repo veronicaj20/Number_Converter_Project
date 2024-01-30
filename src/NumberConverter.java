@@ -148,5 +148,24 @@ public class NumberConverter {
             }
         }
     }
+
+    public String base10Conversions(int num, int chosenBase) {
+        String mapCharacters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/";
+        String result = "";
+
+        if (chosenBase == 1) {
+            for (int i = 0; i < num; i++) {
+                result += "1";
+            }
+            return result;
+        }
+
+        while (num > 0) {
+            int rem = num % chosenBase;
+            result = mapCharacters.charAt(rem) + result;
+            num = num / chosenBase;
+        }
+        return result;
+    }
 }
 
