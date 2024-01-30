@@ -56,6 +56,34 @@ class ConverterRunner {
             }
         }
 
+        if (validDigits) {
+            if (base == 2) {
+                // conversion to octal
+                NumberConverter.octalConversion(nc);
+                System.out.println();
+
+                // conversion to decimal
+                NumberConverter.decimalConversion(nc);
+            }
+            else if (base == 8) {
+                // conversion to binary
+                NumberConverter.binaryConversion(nc);
+                System.out.println();
+
+                // conversion to decimal
+                NumberConverter.decimalConversion(nc);
+            }
+            else {
+                // conversion to binary
+                NumberConverter.binaryConversion(nc);
+                System.out.println();
+
+                // conversion to octal
+                NumberConverter.octalConversion(nc);
+                }
+            }
+        }
+
     }
-}
+
 
